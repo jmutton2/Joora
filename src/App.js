@@ -10,17 +10,14 @@ function App() {
   const dispatch = useDispatch();
 
   let handleDragEnd = (result) => {
+    if (!result.destination) return;
     dispatch(reorder(result));
   };
-  
+
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Counter: {counter}</h1>
-        <button onClick={() => dispatch(increment())}>+</button>
-        <button onClick={() => dispatch(decrement())}>-</button>
         <DragDropContext onDragEnd={handleDragEnd}>
-          {/* <DragDropContext onDragEnd={(result) => dispatch(order(result))}> */}
           <Droppable droppableId="entries">
             {(provided) => (
               <ul {...provided.droppableProps} ref={provided.innerRef}>
@@ -28,14 +25,16 @@ function App() {
                   return (
                     <Draggable key={key} draggableId={title} index={index}>
                       {(provided) => (
-                        <li
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          ref={provided.innerRef}
-                        >
-                          <h1>{title}</h1>
-                          <p>{content}</p>
-                        </li>
+                        <div style={{backgroundColor: "#"+((1<<24)*Math.random()|0).toString(16) }}>
+                          <li
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            ref={provided.innerRef}
+                          >
+                            <h1>{title}</h1>
+                            <p>{content}</p>
+                          </li>
+                        </div>
                       )}
                     </Draggable>
                   );
