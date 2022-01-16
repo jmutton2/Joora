@@ -4,6 +4,8 @@ const getItems = (count, offset = 0) =>
     content: `item ${k + offset}`,
   }));
 
+const initialState = [getItems(10), getItems(5, 10), getItems(3, 15)];
+
 const reorder = (list, sourceDroppableID, sourceIndex, destIndex) => {
   const destClone = Array.from(list[sourceDroppableID]);
 
@@ -22,7 +24,7 @@ const reorder = (list, sourceDroppableID, sourceIndex, destIndex) => {
 const move = (list, source, destination) => {
   const sourceClone = Array.from(list[source.droppableId]);
   const destClone = Array.from(list[destination.droppableId]);
-
+  
   const [removed] = sourceClone.splice(source.index, 1);
   destClone.splice(destination.index, 0, removed);
 
@@ -31,10 +33,12 @@ const move = (list, source, destination) => {
   result[destination.droppableId] = destClone;
 
   const newState = [...list];
+
   newState[source.droppableId] = result[source.droppableId];
   newState[destination.droppableId] = result[destination.droppableId];
 
-  return result;
+
+  return newState;
 };
 
 const remove = (list, sourceDroppableID, deleteIndex) => {
@@ -50,8 +54,6 @@ const remove = (list, sourceDroppableID, deleteIndex) => {
 
   return newState;
 };
-
-const initialState = [getItems(10), getItems(5, 10)];
 
 function addReducer(state = initialState, action) {
   switch (action.type) {
