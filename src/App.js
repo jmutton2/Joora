@@ -9,24 +9,26 @@ import {
   removeColumnAction,
   addItemAction
 } from "./actions";
+import './css/App.css';
 
 //\\####STYLING####\\//
 const getItemStyle = (isDragging, draggableStyle) => ({
   // some basic styles to make the items look a bit nicer
   userSelect: "none",
-  padding: 40,
+  padding: 30,
   margin: `0 0 20px 0`,
+  height: 40,
 
   // change background colour if dragging
-  background: isDragging ? "lightgreen" : "grey",
+  background: isDragging ? "lightblue" : "white",
 
   // styles we need to apply on draggables
   ...draggableStyle,
 });
 
 const getListStyle = (isDraggingOver) => ({
-  background: isDraggingOver ? "lightblue" : "lightgrey",
-  padding: 5,
+  background: isDraggingOver ? "orange" : "lightgrey",
+  padding: 10,
   width: 250,
 });
 
@@ -36,7 +38,7 @@ const DragDropList = (props) => {
   const dispatch = useDispatch();
   return (
     <div style={{ display: "flex" }}>
-      <div>
+      <div class="buttons">
         <button
           type="button"
           onClick={() => {
@@ -47,6 +49,7 @@ const DragDropList = (props) => {
         </button>
         <button
           type="button"
+          style={}
           onClick={() => {
             dispatch(removeColumnAction());
           }}
@@ -72,7 +75,7 @@ const DragDropList = (props) => {
               {...provided.droppableProps}
             >
               {el.map((item, index) => (
-                <Draggable key={item.id} draggableId={item.id} index={index}>
+                <Draggable class="droppable" key={item.id} draggableId={item.id} index={index}>
                   {(provided, snapshot) => (
                     <div
                       ref={provided.innerRef}
@@ -147,7 +150,7 @@ export const DragDropContextContainer = () => {
   };
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
+    <DragDropContext onDragEnd={onDragEnd} class="context">
       <DragDropListContainer />
     </DragDropContext>
   );
