@@ -50,3 +50,11 @@ export function removeColumnAction() {
     });
   };
 }
+
+export function addItemAction() {
+  return (dispatch) => {
+    dispatch({
+      type: "ADDITEM",
+    });
+  };
+}

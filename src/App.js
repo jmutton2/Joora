@@ -7,42 +7,10 @@ import {
   removeItemAction,
   addColumnAction,
   removeColumnAction,
+  addItemAction
 } from "./actions";
 
-// fake data generator
-// const getItems = (count, offset = 0) =>
-//   Array.from({ length: count }, (v, k) => k).map((k) => ({
-//     id: `item-${k + offset}-${new Date().getTime()}`,
-//     content: `item ${k + offset}`,
-//   }));
-
-// const reorder = (list, startIndex, endIndex) => {
-//   const result = Array.from(list);
-//   const [removed] = result.splice(startIndex, 1);
-//   result.splice(endIndex, 0, removed);
-
-//   return result;
-// };
-
-/**
- * Moves an item from one list to another list.
- */
-// const move = (source, destination, droppableSource, droppableDestination) => {
-//   const sourceClone = Array.from(source);
-//   const destClone = Array.from(destination);
-//   const [removed] = sourceClone.splice(droppableSource.index, 1);
-
-//   destClone.splice(droppableDestination.index, 0, removed);
-
-//   const result = {};
-//   result[droppableSource.droppableId] = sourceClone;
-//   result[droppableDestination.droppableId] = destClone;
-
-//   return result;
-// };
-
 //\\####STYLING####\\//
-
 const getItemStyle = (isDragging, draggableStyle) => ({
   // some basic styles to make the items look a bit nicer
   userSelect: "none",
@@ -72,7 +40,6 @@ const DragDropList = (props) => {
         <button
           type="button"
           onClick={() => {
-            console.log("woiw");
             dispatch(addColumnAction());
           }}
         >
@@ -81,11 +48,18 @@ const DragDropList = (props) => {
         <button
           type="button"
           onClick={() => {
-            console.log("woiw");
             dispatch(removeColumnAction());
           }}
         >
           Remove last column
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            dispatch(addItemAction());
+          }}
+        >
+          Add new item
         </button>
       </div>
 

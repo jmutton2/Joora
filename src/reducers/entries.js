@@ -56,8 +56,8 @@ const remove = (list, sourceDroppableID, deleteIndex) => {
 
 const removeColumn = (list) => {
   const destClone = Array.from(list);
-  
-  destClone.pop()
+
+  destClone.pop();
 
   return destClone;
 };
@@ -106,6 +106,10 @@ function addReducer(state = initialState, action) {
 
     case "REMOVECOLUMN":
       state = [...removeColumn(state)];
+      return state;
+
+    case "ADDITEM":
+      state = [...state, getItems(1)];
       return state;
     default:
       return state;
