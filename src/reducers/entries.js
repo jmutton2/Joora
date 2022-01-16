@@ -4,12 +4,17 @@ const getItems = (count, offset = 0) =>
     content: `item ${k + offset}`,
   }));
 
-const reorder = (list, sourceDroppableID, startIndex, endIndex) => {
-  const result = Array.from(list[sourceDroppableID]);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
+const reorder = (list, sourceDroppableID, sourceIndex, destIndex) => {
+  const destClone = Array.from(list[sourceDroppableID]);
 
-  const newState = [...result];
+  const [removed] = destClone.splice(sourceIndex, 1);
+  destClone.splice(destIndex, 0, removed);
+
+  const result = [];
+  result[sourceDroppableID] = destClone;
+
+  const newState = [...list];
+  newState[sourceDroppableID] = result[sourceDroppableID];
 
   return newState;
 };
@@ -17,8 +22,8 @@ const reorder = (list, sourceDroppableID, startIndex, endIndex) => {
 const move = (list, source, destination) => {
   const sourceClone = Array.from(list[source.droppableId]);
   const destClone = Array.from(list[destination.droppableId]);
-  const [removed] = sourceClone.splice(source.index, 1);
 
+  const [removed] = sourceClone.splice(source.index, 1);
   destClone.splice(destination.index, 0, removed);
 
   const result = [];
@@ -33,10 +38,15 @@ const move = (list, source, destination) => {
 };
 
 const remove = (list, sourceDroppableID, deleteIndex) => {
-  const result = Array.from(list[sourceDroppableID]);
-  result.splice(deleteIndex, 1);
+  const destClone = Array.from(list[sourceDroppableID]);
 
-  const newState = [...result];
+  destClone.splice(deleteIndex, 1);
+
+  const result = [];
+  result[sourceDroppableID] = destClone;
+
+  const newState = [...list];
+  newState[sourceDroppableID] = result[sourceDroppableID];
 
   return newState;
 };
@@ -55,23 +65,27 @@ function addReducer(state = initialState, action) {
       return state;
     case "REORDER":
       if (state) {
-        state[action.payload.sourceDroppableID] = reorder(
-          state,
-          action.payload.sourceDroppableID,
-          action.payload.sourceIndex,
-          action.payload.destinationIndex
-        );
+        state = [
+          ...reorder(
+            state,
+            action.payload.sourceDroppableID,
+            action.payload.sourceIndex,
+            action.payload.destinationIndex
+          ),
+        ];
         return state;
       }
       return state;
 
     case "REMOVE":
       if (state) {
-        state[action.payload.sourceDroppableID] = remove(
-          state,
-          action.payload.sourceDroppableID,
-          action.payload.removeIndex
-        );
+        state = [
+          ...remove(
+            state,
+            action.payload.sourceDroppableID,
+            action.payload.removeIndex
+          ),
+        ];
         return state;
       }
       return state;
