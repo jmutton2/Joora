@@ -1,7 +1,13 @@
 import React from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
-import { moveItemAction, reorderItemAction, removeItemAction } from "./actions";
+import {
+  moveItemAction,
+  reorderItemAction,
+  removeItemAction,
+  addColumnAction,
+  removeColumnAction,
+} from "./actions";
 
 // fake data generator
 // const getItems = (count, offset = 0) =>
@@ -60,59 +66,76 @@ const getListStyle = (isDraggingOver) => ({
 
 const DragDropList = (props) => {
   const dispatch = useDispatch();
-  try {
-    return (
-      <div style={{ display: "flex" }}>
-        {props.state.map((el, ind) => (
-          <Droppable key={ind} droppableId={`${ind}`}>
-            {(provided, snapshot) => (
-              <div
-                ref={provided.innerRef}
-                style={getListStyle(snapshot.isDraggingOver)}
-                {...provided.droppableProps}
-              >
-                {el.map((item, index) => (
-                  <Draggable key={item.id} draggableId={item.id} index={index}>
-                    {(provided, snapshot) => (
+  return (
+    <div style={{ display: "flex" }}>
+      <div>
+        <button
+          type="button"
+          onClick={() => {
+            console.log("woiw");
+            dispatch(addColumnAction());
+          }}
+        >
+          Add new group
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            console.log("woiw");
+            dispatch(removeColumnAction());
+          }}
+        >
+          Remove last column
+        </button>
+      </div>
+
+      {props.state.map((el, ind) => (
+        <Droppable key={ind} droppableId={`${ind}`}>
+          {(provided, snapshot) => (
+            <div
+              ref={provided.innerRef}
+              style={getListStyle(snapshot.isDraggingOver)}
+              {...provided.droppableProps}
+            >
+              {el.map((item, index) => (
+                <Draggable key={item.id} draggableId={item.id} index={index}>
+                  {(provided, snapshot) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      style={getItemStyle(
+                        snapshot.isDragging,
+                        provided.draggableProps.style
+                      )}
+                    >
                       <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        style={getItemStyle(
-                          snapshot.isDragging,
-                          provided.draggableProps.style
-                        )}
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-around",
+                        }}
                       >
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-around",
+                        {item.content}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            dispatch(removeItemAction(index, ind));
                           }}
                         >
-                          {item.content}
-                          <button
-                            type="button"
-                            onClick={() => {
-                              dispatch(removeItemAction(index, ind));
-                            }}
-                          >
-                            delete
-                          </button>
-                        </div>
+                          delete
+                        </button>
                       </div>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        ))}
-      </div>
-    );
-  } catch (error) {
-    return <div>AN ERROR HAS OCCURED</div>;
-  }
+                    </div>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      ))}
+    </div>
+  );
 };
 
 export const DragDropListContainer = () => {
@@ -125,7 +148,6 @@ export const DragDropListContainer = () => {
 };
 
 export const DragDropContextContainer = () => {
-
   const dispatch = useDispatch();
 
   const onDragEnd = (result) => {

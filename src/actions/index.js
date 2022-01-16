@@ -34,3 +34,19 @@ export function removeItemAction(removeIndex, sourceDroppableID) {
     });
   };
 }
+
+export function addColumnAction() {
+  return (dispatch) => {
+    dispatch({
+      type: "ADDCOLUMN",
+    });
+  };
+}
+
+export function removeColumnAction() {
+  return (dispatch) => {
+    dispatch({
+      type: "REMOVECOLUMN",
+    });
+  };
+}

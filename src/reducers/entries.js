@@ -24,7 +24,7 @@ const reorder = (list, sourceDroppableID, sourceIndex, destIndex) => {
 const move = (list, source, destination) => {
   const sourceClone = Array.from(list[source.droppableId]);
   const destClone = Array.from(list[destination.droppableId]);
-  
+
   const [removed] = sourceClone.splice(source.index, 1);
   destClone.splice(destination.index, 0, removed);
 
@@ -36,7 +36,6 @@ const move = (list, source, destination) => {
 
   newState[source.droppableId] = result[source.droppableId];
   newState[destination.droppableId] = result[destination.droppableId];
-
 
   return newState;
 };
@@ -55,6 +54,14 @@ const remove = (list, sourceDroppableID, deleteIndex) => {
   return newState;
 };
 
+const removeColumn = (list) => {
+  const destClone = Array.from(list);
+  
+  destClone.pop()
+
+  return destClone;
+};
+
 function addReducer(state = initialState, action) {
   switch (action.type) {
     case "MOVE":
@@ -65,6 +72,7 @@ function addReducer(state = initialState, action) {
         return state;
       }
       return state;
+
     case "REORDER":
       if (state) {
         state = [
@@ -90,6 +98,14 @@ function addReducer(state = initialState, action) {
         ];
         return state;
       }
+      return state;
+
+    case "ADDCOLUMN":
+      state = [...state, []];
+      return state;
+
+    case "REMOVECOLUMN":
+      state = [...removeColumn(state)];
       return state;
     default:
       return state;
