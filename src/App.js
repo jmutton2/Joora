@@ -5,7 +5,8 @@ import "./css/style.css";
 
 const App = () => {
   return (
-    <div style={{ display: "flex", background: "#2c2f33", height: "100vh" }}>
+    <div style={{ display: "flex", background: "#e3f2fd  ", height: "100vh" }}>
+      {/* <div style={{ display: "flex", background: "#2c2f33", height: "100vh" }}> */}
       <SideBar />
       <DragDropList />
     </div>

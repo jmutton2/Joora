@@ -14,12 +14,12 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   padding: 30,
   margin: `0 0 20px 0`,
   height: 80,
-  background: isDragging ? "#2c2f33" : "#2c2f33",
+  background: isDragging ? "#e3f2fd " : "#e3f2fd ",
   ...draggableStyle,
 });
 
 const getListStyle = (isDraggingOver) => ({
-  background: "#23272a",
+  background: "#1976d2 ",
   padding: 10,
   width: 280,
   marginTop: 10,
@@ -33,7 +33,7 @@ const getListStyle = (isDraggingOver) => ({
 const DragDropList = (props) => {
   const dispatch = useDispatch();
   return (
-    <div style={{ display: "flex", background: "#2c2f33" }}>
+    <div style={{ display: "flex", background: "#e3f2fd " }}>
       {props.state.map((el, ind) => (
         <Droppable key={ind} droppableId={`${ind}`}>
           {(provided, snapshot) => (
@@ -123,7 +123,7 @@ export const DragDropContextContainer = () => {
   };
 
   return (
-    <div style={{ background: "#2c2f33" }}>
+    <div style={{ background: "##e3f2fd  " }}>
       <DragDropContext onDragEnd={onDragEnd}>
         <DragDropListContainer />
       </DragDropContext>
