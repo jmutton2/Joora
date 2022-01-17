@@ -7,27 +7,22 @@ import {
   removeItemAction,
   addColumnAction,
   removeColumnAction,
-  addItemAction
+  addItemAction,
 } from "./actions";
-import './css/App.css';
+import "./css/style.css";
 
 //\\####STYLING####\\//
 const getItemStyle = (isDragging, draggableStyle) => ({
-  // some basic styles to make the items look a bit nicer
   userSelect: "none",
   padding: 30,
   margin: `0 0 20px 0`,
   height: 40,
-
-  // change background colour if dragging
-  background: isDragging ? "lightblue" : "white",
-
-  // styles we need to apply on draggables
+  background: isDragging ? "#2c2f33" : "#2c2f33",
   ...draggableStyle,
 });
 
 const getListStyle = (isDraggingOver) => ({
-  background: isDraggingOver ? "orange" : "lightgrey",
+  background: "#23272a",
   padding: 10,
   width: 250,
 });
@@ -37,10 +32,11 @@ const getListStyle = (isDraggingOver) => ({
 const DragDropList = (props) => {
   const dispatch = useDispatch();
   return (
-    <div style={{ display: "flex" }}>
+    <div style={{ display: "flex", background: "#2c2f33" }}>
       <div class="buttons">
         <button
           type="button"
+          class="myButton"
           onClick={() => {
             dispatch(addColumnAction());
           }}
@@ -49,7 +45,7 @@ const DragDropList = (props) => {
         </button>
         <button
           type="button"
-          style={}
+          class="myButton"
           onClick={() => {
             dispatch(removeColumnAction());
           }}
@@ -58,6 +54,7 @@ const DragDropList = (props) => {
         </button>
         <button
           type="button"
+          class="myButton"
           onClick={() => {
             dispatch(addItemAction());
           }}
@@ -75,7 +72,12 @@ const DragDropList = (props) => {
               {...provided.droppableProps}
             >
               {el.map((item, index) => (
-                <Draggable class="droppable" key={item.id} draggableId={item.id} index={index}>
+                <Draggable
+                  class="droppable"
+                  key={item.id}
+                  draggableId={item.id}
+                  index={index}
+                >
                   {(provided, snapshot) => (
                     <div
                       ref={provided.innerRef}
@@ -90,6 +92,7 @@ const DragDropList = (props) => {
                         style={{
                           display: "flex",
                           justifyContent: "space-around",
+                          fontFamily: "Uni Sans Heavy",
                         }}
                       >
                         {item.content}
