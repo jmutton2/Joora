@@ -8,7 +8,7 @@ import "./index.css";
 
 ReactDOM.render(
   <Provider store={store}>
-    <App class="App"/>
+    <App className="App"/>
   </Provider>,
   document.getElementById("root")
 );

@@ -62,6 +62,20 @@ const removeColumn = (list) => {
   return destClone;
 };
 
+const addItem = (list, amt) => {
+  const destClone = Array.from(list[0]);
+
+  destClone.splice(0, 0, getItems(1)[0]);
+
+  const result = [];
+  result[0] = destClone;
+
+  const newState = [...list];
+  newState[0] = result[0];
+
+  return newState;
+};
+
 function addReducer(state = initialState, action) {
   switch (action.type) {
     case "MOVE":
@@ -101,7 +115,9 @@ function addReducer(state = initialState, action) {
       return state;
 
     case "ADDCOLUMN":
-      state = [...state, []];
+      if (state.length <= 4) {
+        state = [...state, []];
+      }
       return state;
 
     case "REMOVECOLUMN":
@@ -109,7 +125,7 @@ function addReducer(state = initialState, action) {
       return state;
 
     case "ADDITEM":
-      state = [...state, getItems(1)];
+      state = [...addItem(state, 1)];
       return state;
     default:
       return state;

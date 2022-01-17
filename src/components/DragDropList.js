@@ -44,7 +44,7 @@ const DragDropList = (props) => {
             >
               {el.map((item, index) => (
                 <Draggable
-                  class="droppable"
+                  className="droppable"
                   key={item.id}
                   draggableId={item.id}
                   index={index}
