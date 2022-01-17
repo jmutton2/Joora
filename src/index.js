@@ -3,12 +3,12 @@ import ReactDOM from "react-dom";
 import { store } from "./app/store";
 import { Provider } from "react-redux";
 import * as serviceWorker from "./serviceWorker";
-import DragDropList from "./App";
+import App from "./App.js";
 import "./index.css";
 
 ReactDOM.render(
   <Provider store={store}>
-    <DragDropList />
+    <App class="App"/>
   </Provider>,
   document.getElementById("root")
 );
