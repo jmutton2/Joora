@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/joora/static/css/main.1663abd6.css",
-    "main.js": "/joora/static/js/main.7183c9c7.js",
+    "main.css": "/joora/static/css/main.50c00547.css",
+    "main.js": "/joora/static/js/main.f3979009.js",
     "index.html": "/joora/index.html",
-    "main.1663abd6.css.map": "/joora/static/css/main.1663abd6.css.map",
-    "main.7183c9c7.js.map": "/joora/static/js/main.7183c9c7.js.map"
+    "main.50c00547.css.map": "/joora/static/css/main.50c00547.css.map",
+    "main.f3979009.js.map": "/joora/static/js/main.f3979009.js.map"
   },
   "entrypoints": [
-    "static/css/main.1663abd6.css",
-    "static/js/main.7183c9c7.js"
+    "static/css/main.50c00547.css",
+    "static/js/main.f3979009.js"
   ]
 }
