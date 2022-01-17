@@ -22,9 +22,15 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 });
 
 const getListStyle = (isDraggingOver) => ({
+  display: "flex",
+  flexDirection: "column",
   background: "#23272a",
   padding: 10,
   width: 250,
+  marginTop: 10,
+  marginInline: 10,
+  maxHeight: "96vh",
+  overflowY: "auto",
 });
 
 //\\####STYLING####//\\
@@ -32,11 +38,18 @@ const getListStyle = (isDraggingOver) => ({
 const DragDropList = (props) => {
   const dispatch = useDispatch();
   return (
-    <div style={{ display: "flex", background: "#2c2f33" }}>
+    <div
+      style={{ display: "flex", background: "#2c2f33" }}
+    >
       <div class="buttons">
         <button
           type="button"
           class="myButton"
+          style={{
+            display: "flex",
+            justifyContent: "space-around",
+            fontFamily: "Uni Sans Heavy",
+          }}
           onClick={() => {
             dispatch(addColumnAction());
           }}
@@ -46,6 +59,11 @@ const DragDropList = (props) => {
         <button
           type="button"
           class="myButton"
+          style={{
+            display: "flex",
+            justifyContent: "space-around",
+            fontFamily: "Uni Sans Heavy",
+          }}
           onClick={() => {
             dispatch(removeColumnAction());
           }}
@@ -55,6 +73,11 @@ const DragDropList = (props) => {
         <button
           type="button"
           class="myButton"
+          style={{
+            display: "flex",
+            justifyContent: "space-around",
+            fontFamily: "Uni Sans Heavy",
+          }}
           onClick={() => {
             dispatch(addItemAction());
           }}
@@ -131,7 +154,6 @@ export const DragDropContextContainer = () => {
   const dispatch = useDispatch();
 
   const onDragEnd = (result) => {
-    // dropped outside the list
     if (!result.destination) {
       return;
     }
@@ -153,9 +175,11 @@ export const DragDropContextContainer = () => {
   };
 
   return (
-    <DragDropContext onDragEnd={onDragEnd} class="context">
-      <DragDropListContainer />
-    </DragDropContext>
+    <div style={{ minHeight: "100vh", background: "#2c2f33" }}>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <DragDropListContainer />
+      </DragDropContext>
+    </div>
   );
 };
 
