@@ -1,11 +1,16 @@
+//Random entry generator
 const getItems = (count, offset = 0) =>
   Array.from({ length: count }, (v, k) => k).map((k) => ({
     id: `item-${k + offset}-${new Date().getTime()}`,
     content: `item ${k + offset}`,
+    description: "This is a description of the entry",
+    severity: "critical",
   }));
 
+//Get random items as the state
 const initialState = [getItems(10), getItems(5, 10), getItems(3, 15)];
 
+//Changing the order of items vertically
 const reorder = (list, sourceDroppableID, sourceIndex, destIndex) => {
   const destClone = Array.from(list[sourceDroppableID]);
 
@@ -21,6 +26,7 @@ const reorder = (list, sourceDroppableID, sourceIndex, destIndex) => {
   return newState;
 };
 
+//Changing the order of items horizontally
 const move = (list, source, destination) => {
   const sourceClone = Array.from(list[source.droppableId]);
   const destClone = Array.from(list[destination.droppableId]);
@@ -40,6 +46,7 @@ const move = (list, source, destination) => {
   return newState;
 };
 
+//Removing an item from the list
 const remove = (list, sourceDroppableID, deleteIndex) => {
   const destClone = Array.from(list[sourceDroppableID]);
 
@@ -54,6 +61,7 @@ const remove = (list, sourceDroppableID, deleteIndex) => {
   return newState;
 };
 
+//Removing a column
 const removeColumn = (list) => {
   const destClone = Array.from(list);
 
@@ -62,6 +70,7 @@ const removeColumn = (list) => {
   return destClone;
 };
 
+//Adding a new random item to the first list
 const addItem = (list, amt) => {
   const destClone = Array.from(list[0]);
 
@@ -76,6 +85,7 @@ const addItem = (list, amt) => {
   return newState;
 };
 
+//List of reducers
 function addReducer(state = initialState, action) {
   switch (action.type) {
     case "MOVE":

@@ -123,7 +123,7 @@ export const DragDropContextContainer = () => {
   };
 
   return (
-    <div style={{ background: "##e3f2fd  " }}>
+    <div style={{ background: "##e3f2fd" }}>
       <DragDropContext onDragEnd={onDragEnd}>
         <DragDropListContainer />
       </DragDropContext>

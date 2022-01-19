@@ -14,8 +14,8 @@ const Buttons = () => {
   const dispatch = useDispatch();
 
   return (
-    <div style={{ width: 200 }} class="buttons">
-      <div>
+    <div style={{ width: 200, paddingLeft:10}} class="buttons">
+      <div style={{padding: 20}}>
         <Button variant="contained" onClick={handleOpen}>
           Open modal
         </Button>
