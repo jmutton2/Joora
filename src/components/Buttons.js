@@ -42,8 +42,8 @@ const Buttons = () => {
         Remove last column
       </Button> */}
       <Button
+        key="AddEntryButton"
         variant="contained"
-        className="myButton"
         style={{
           display: "flex",
           justifyContent: "space-around",
@@ -57,9 +57,10 @@ const Buttons = () => {
         Add new item
       </Button>
       <Modal
+        key="AddEntryModal"
         open={open}
         onClose={handleClose}
-        aria-labelledby="modal-modal-title"
+        // aria-labelledby="modal-modal-title"
       >
         <Entry />
       </Modal>

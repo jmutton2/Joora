@@ -8,6 +8,7 @@ import {
 } from "../actions";
 import "../css/style.css";
 import Button from "@mui/material/Button";
+import { myStore } from "../localStorage/localStorage";
 
 //\\####STYLING####\\//
 const getItemStyle = (isDragging, draggableStyle) => ({
@@ -31,7 +32,7 @@ const getListStyle = (isDraggingOver) => ({
 
 //\\####STYLING####//\\
 
-const DragDropList = (props) => {
+const DragDropList = () => {
   const dispatch = useDispatch();
 
   let titles = ["TO DO", "IN PROGRESS", "REVIEW", "DONE"];
@@ -45,7 +46,7 @@ const DragDropList = (props) => {
         height: "95vh",
       }}
     >
-      {props.state.map((el, ind) => (
+      {myStore.state.state.map((el, ind) => (
         <div style={{ overflow: "hidden" }}>
           <Droppable key={ind} droppableId={`${ind}`}>
             {(provided, snapshot) => (
@@ -73,6 +74,7 @@ const DragDropList = (props) => {
                         )}
                       >
                         <div
+                          key={item}
                           style={{
                             display: "flex",
                             justifyContent: "space-around",
@@ -107,6 +109,7 @@ const DragDropList = (props) => {
 
 export const DragDropListContainer = () => {
   const state = useSelector((state) => state);
+  
   if (state) {
     return <DragDropList state={state} />;
   } else {

@@ -1,14 +1,15 @@
-//Random entry generator
-const getItems = (count, offset = 0) =>
-  Array.from({ length: count }, (v, k) => k).map((k) => ({
-    id: `item-${k + offset}-${new Date().getTime()}`,
-    content: `item ${k + offset}`,
-    description: "This is a description of the entry",
-    severity: "critical",
-  }));
+import { myStore } from "../localStorage/localStorage";
 
-//Get random items as the state
-const initialState = [getItems(10), getItems(5, 10), getItems(3, 15), getItems(0)];
+//Random entry generator
+// const getItems = (count, offset = 0) =>
+//   Array.from({ length: count }, (v, k) => k).map((k) => ({
+//     id: `item-${k + offset}-${new Date().getTime()}`,
+//     content: `item ${k + offset}`,
+//     description: "This is a description of the entry",
+//     severity: "critical",
+//   }));
+
+const initialState = myStore.state;
 
 //Changing the order of items vertically
 const reorder = (list, sourceDroppableID, sourceIndex, destIndex) => {
@@ -27,9 +28,9 @@ const reorder = (list, sourceDroppableID, sourceIndex, destIndex) => {
 };
 
 //Changing the order of items horizontally
-const move = (list, source, destination) => {
-  const sourceClone = Array.from(list[source.droppableId]);
-  const destClone = Array.from(list[destination.droppableId]);
+const move = (source, destination) => {
+  const sourceClone = Array.from(myStore.state.state[source.droppableId]);
+  const destClone = Array.from(myStore.state.state[destination.droppableId]);
 
   const [removed] = sourceClone.splice(source.index, 1);
   destClone.splice(destination.index, 0, removed);
@@ -38,7 +39,7 @@ const move = (list, source, destination) => {
   result[source.droppableId] = sourceClone;
   result[destination.droppableId] = destClone;
 
-  const newState = [...list];
+  const newState = [...myStore.state.state];
 
   newState[source.droppableId] = result[source.droppableId];
   newState[destination.droppableId] = result[destination.droppableId];
@@ -47,21 +48,21 @@ const move = (list, source, destination) => {
 };
 
 //Removing an item from the list
-const remove = (list, sourceDroppableID, deleteIndex) => {
-  const destClone = Array.from(list[sourceDroppableID]);
+const remove = (sourceDroppableID, deleteIndex) => {
+  const destClone = Array.from(myStore.state.state[sourceDroppableID]);
 
   destClone.splice(deleteIndex, 1);
 
   const result = [];
   result[sourceDroppableID] = destClone;
 
-  const newState = [...list];
+  const newState = [...myStore.state.state];
   newState[sourceDroppableID] = result[sourceDroppableID];
 
   return newState;
 };
 
-//Removing a column
+//Removing a column XXDEPRECIATEDXX
 const removeColumn = (list) => {
   const destClone = Array.from(list);
 
@@ -71,15 +72,23 @@ const removeColumn = (list) => {
 };
 
 //Adding a new random item to the first list
-const addItem = (list, amt) => {
-  const destClone = Array.from(list[0]);
+const addItem = () => {
+  // myStore.state.setState((myStore.state.state[0] = 1));
+  const destClone = Array.from(myStore.state.state[0]);
 
-  destClone.splice(0, 0, getItems(1)[0]);
+  let item = {
+    id: `item-0-${new Date().getTime()}`,
+    content: `item 0`,
+    description: "This is a description of the entry",
+    severity: "critical",
+  };
+
+  destClone.push(item);
 
   const result = [];
   result[0] = destClone;
 
-  const newState = [...list];
+  const newState = [...myStore.state.state];
   newState[0] = result[0];
 
   return newState;
@@ -89,56 +98,54 @@ const addItem = (list, amt) => {
 function addReducer(state = initialState, action) {
   switch (action.type) {
     case "MOVE":
-      if (state) {
-        state = [
-          ...move(state, action.payload.source, action.payload.destination),
+      if (myStore.state.state) {
+        myStore.state.state = [
+          ...move(action.payload.source, action.payload.destination),
         ];
-        return state;
+        return myStore.state.state;
       }
-      return state;
+      return myStore.state.state;
 
     case "REORDER":
-      if (state) {
-        state = [
+      if (myStore.state.state) {
+        myStore.state.state = [
           ...reorder(
-            state,
             action.payload.sourceDroppableID,
             action.payload.sourceIndex,
             action.payload.destinationIndex
           ),
         ];
-        return state;
+        return myStore.state.state;
       }
-      return state;
+      return myStore.state.state;
 
     case "REMOVE":
-      if (state) {
-        state = [
+      if (myStore.state.state) {
+        myStore.state.state = [
           ...remove(
-            state,
             action.payload.sourceDroppableID,
             action.payload.removeIndex
           ),
         ];
-        return state;
+        return myStore.state.state;
       }
-      return state;
+      return myStore.state.state;
 
     case "ADDCOLUMN":
       if (state.length <= 4) {
-        state = [...state, []];
+        myStore.state.state = [...state, []];
       }
-      return state;
+      return myStore.state.state;
 
     case "REMOVECOLUMN":
-      state = [...removeColumn(state)];
-      return state;
+      myStore.state.state = [...removeColumn()];
+      return myStore.state.state;
 
     case "ADDITEM":
-      state = [...addItem(state, 1)];
-      return state;
+      myStore.state.state = [...addItem()];
+      return myStore.state.state;
     default:
-      return state;
+      return myStore.state.state;
   }
 }
 
