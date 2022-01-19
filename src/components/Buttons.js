@@ -1,6 +1,5 @@
 import React from "react";
-import { addColumnAction, removeColumnAction, addItemAction } from "../actions";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 import Entry from "./Entry";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
@@ -11,24 +10,9 @@ const Buttons = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const dispatch = useDispatch();
-
   return (
-    <div style={{ width: 200, paddingLeft:10}} class="buttons">
-      <div style={{padding: 20}}>
-        <Button variant="contained" onClick={handleOpen}>
-          Open modal
-        </Button>
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Entry />
-        </Modal>
-      </div>
-      <Button
+    <div style={{ width: 200, paddingLeft: 10 }} class="buttons">
+      {/* <Button
         variant="contained"
         className="myButton"
         disabled={false}
@@ -42,8 +26,8 @@ const Buttons = () => {
         }}
       >
         Add new group
-      </Button>
-      <Button
+      </Button> */}
+      {/* <Button
         variant="contained"
         className="myButton"
         style={{
@@ -56,7 +40,7 @@ const Buttons = () => {
         }}
       >
         Remove last column
-      </Button>
+      </Button> */}
       <Button
         variant="contained"
         className="myButton"
@@ -64,13 +48,21 @@ const Buttons = () => {
           display: "flex",
           justifyContent: "space-around",
           fontFamily: "Uni Sans Heavy",
+          background: "#7289da ",
         }}
         onClick={() => {
-          dispatch(addItemAction());
+          handleOpen();
         }}
       >
         Add new item
       </Button>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+      >
+        <Entry />
+      </Modal>
     </div>
   );
 };

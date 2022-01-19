@@ -8,7 +8,7 @@ const getItems = (count, offset = 0) =>
   }));
 
 //Get random items as the state
-const initialState = [getItems(10), getItems(5, 10), getItems(3, 15)];
+const initialState = [getItems(10), getItems(5, 10), getItems(3, 15), getItems(0)];
 
 //Changing the order of items vertically
 const reorder = (list, sourceDroppableID, sourceIndex, destIndex) => {

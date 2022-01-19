@@ -7,6 +7,7 @@ import {
   removeItemAction,
 } from "../actions";
 import "../css/style.css";
+import Button from "@mui/material/Button";
 
 //\\####STYLING####\\//
 const getItemStyle = (isDragging, draggableStyle) => ({
@@ -14,12 +15,12 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   padding: 30,
   margin: `0 0 20px 0`,
   height: 80,
-  background: isDragging ? "#e3f2fd " : "#e3f2fd ",
+  background: isDragging ? "#2c2f33" : "#2c2f33",
   ...draggableStyle,
 });
 
 const getListStyle = (isDraggingOver) => ({
-  background: "#1976d2 ",
+  background: "rgb(55, 58, 62)",
   padding: 10,
   width: 280,
   marginTop: 10,
@@ -32,58 +33,73 @@ const getListStyle = (isDraggingOver) => ({
 
 const DragDropList = (props) => {
   const dispatch = useDispatch();
+
+  let titles = ["TO DO", "IN PROGRESS", "REVIEW", "DONE"];
+
   return (
-    <div style={{ display: "flex", background: "#e3f2fd " }}>
+    <div
+      style={{
+        display: "flex",
+        background: "#23272a",
+        paddingTop: 25,
+        height: "95vh",
+      }}
+    >
       {props.state.map((el, ind) => (
-        <Droppable key={ind} droppableId={`${ind}`}>
-          {(provided, snapshot) => (
-            <div
-              ref={provided.innerRef}
-              style={getListStyle(snapshot.isDraggingOver)}
-              {...provided.droppableProps}
-            >
-              {el.map((item, index) => (
-                <Draggable
-                  className="droppable"
-                  key={item.id}
-                  draggableId={item.id}
-                  index={index}
-                >
-                  {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      style={getItemStyle(
-                        snapshot.isDragging,
-                        provided.draggableProps.style
-                      )}
-                    >
+        <div style={{ overflow: "hidden" }}>
+          <Droppable key={ind} droppableId={`${ind}`}>
+            {(provided, snapshot) => (
+              <div
+                ref={provided.innerRef}
+                style={getListStyle(snapshot.isDraggingOver)}
+                {...provided.droppableProps}
+              >
+                {titles[ind]}
+                {el.map((item, index) => (
+                  <Draggable
+                    className="droppable"
+                    key={item.id}
+                    draggableId={item.id}
+                    index={index}
+                  >
+                    {(provided, snapshot) => (
                       <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-around",
-                          fontFamily: "Uni Sans Heavy",
-                        }}
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        style={getItemStyle(
+                          snapshot.isDragging,
+                          provided.draggableProps.style
+                        )}
                       >
-                        {item.content}
-                        <button
-                          type="button"
-                          onClick={() => {
-                            dispatch(removeItemAction(index, ind));
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-around",
+                            fontFamily: "Uni Sans Heavy",
                           }}
                         >
-                          delete
-                        </button>
+                          {item.content}
+                          <br></br>
+                          {item.description}
+                          <Button
+                            type="button"
+                            onClick={() => {
+                              dispatch(removeItemAction(index, ind));
+                            }}
+                          >
+                            delete
+                          </Button>
+                        </div>
                       </div>
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </div>
       ))}
     </div>
   );
@@ -123,7 +139,7 @@ export const DragDropContextContainer = () => {
   };
 
   return (
-    <div style={{ background: "##e3f2fd" }}>
+    <div style={{ background: "#23272a" }}>
       <DragDropContext onDragEnd={onDragEnd}>
         <DragDropListContainer />
       </DragDropContext>
