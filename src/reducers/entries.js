@@ -1,19 +1,35 @@
-import { myStore } from "../localStorage/localStorage";
+const initialState = JSON.parse(localStorage.getItem("state"));
 
-//Random entry generator
-// const getItems = (count, offset = 0) =>
-//   Array.from({ length: count }, (v, k) => k).map((k) => ({
-//     id: `item-${k + offset}-${new Date().getTime()}`,
-//     content: `item ${k + offset}`,
-//     description: "This is a description of the entry",
-//     severity: "critical",
-//   }));
+const addItem = (state) => {
+  const destCloneUnsliced = Array.from(
+    JSON.parse(localStorage.getItem("state"))[0]
+  );
 
-const initialState = myStore.state;
+  let item = {
+    id: state.id + `item-0-${new Date().getTime()}`,
+    content: state.content,
+    description: state.description,
+    severity: state.severity,
+  };
+
+  let destClone = destCloneUnsliced.slice();
+  destClone.unshift(item);
+
+  const result = [];
+  result[0] = destClone;
+
+  const newState = [...JSON.parse(localStorage.getItem("state"))];
+  newState[0] = result[0];
+
+  localStorage.setItem("state", JSON.stringify([...newState]));
+  return newState;
+};
 
 //Changing the order of items vertically
-const reorder = (list, sourceDroppableID, sourceIndex, destIndex) => {
-  const destClone = Array.from(list[sourceDroppableID]);
+const reorder = (sourceDroppableID, sourceIndex, destIndex) => {
+  const destClone = Array.from(
+    JSON.parse(localStorage.getItem("state"))[sourceDroppableID]
+  );
 
   const [removed] = destClone.splice(sourceIndex, 1);
   destClone.splice(destIndex, 0, removed);
@@ -21,16 +37,21 @@ const reorder = (list, sourceDroppableID, sourceIndex, destIndex) => {
   const result = [];
   result[sourceDroppableID] = destClone;
 
-  const newState = [...list];
+  const newState = [...JSON.parse(localStorage.getItem("state"))];
   newState[sourceDroppableID] = result[sourceDroppableID];
 
+  localStorage.setItem("state", JSON.stringify([...newState]));
   return newState;
 };
 
 //Changing the order of items horizontally
 const move = (source, destination) => {
-  const sourceClone = Array.from(myStore.state.state[source.droppableId]);
-  const destClone = Array.from(myStore.state.state[destination.droppableId]);
+  const sourceClone = Array.from(
+    JSON.parse(localStorage.getItem("state"))[source.droppableId]
+  );
+  const destClone = Array.from(
+    JSON.parse(localStorage.getItem("state"))[destination.droppableId]
+  );
 
   const [removed] = sourceClone.splice(source.index, 1);
   destClone.splice(destination.index, 0, removed);
@@ -39,26 +60,30 @@ const move = (source, destination) => {
   result[source.droppableId] = sourceClone;
   result[destination.droppableId] = destClone;
 
-  const newState = [...myStore.state.state];
+  const newState = [...JSON.parse(localStorage.getItem("state"))];
 
   newState[source.droppableId] = result[source.droppableId];
   newState[destination.droppableId] = result[destination.droppableId];
 
+  localStorage.setItem("state", JSON.stringify([...newState]));
   return newState;
 };
 
 //Removing an item from the list
 const remove = (sourceDroppableID, deleteIndex) => {
-  const destClone = Array.from(myStore.state.state[sourceDroppableID]);
+  const destClone = Array.from(
+    JSON.parse(localStorage.getItem("state"))[sourceDroppableID]
+  );
 
   destClone.splice(deleteIndex, 1);
 
   const result = [];
   result[sourceDroppableID] = destClone;
 
-  const newState = [...myStore.state.state];
+  const newState = [...JSON.parse(localStorage.getItem("state"))];
   newState[sourceDroppableID] = result[sourceDroppableID];
 
+  localStorage.setItem("state", JSON.stringify([...newState]));
   return newState;
 };
 
@@ -71,81 +96,70 @@ const removeColumn = (list) => {
   return destClone;
 };
 
-//Adding a new random item to the first list
-const addItem = () => {
-  // myStore.state.setState((myStore.state.state[0] = 1));
-  const destClone = Array.from(myStore.state.state[0]);
-
-  let item = {
-    id: `item-0-${new Date().getTime()}`,
-    content: `item 0`,
-    description: "This is a description of the entry",
-    severity: "critical",
-  };
-
-  destClone.push(item);
-
-  const result = [];
-  result[0] = destClone;
-
-  const newState = [...myStore.state.state];
-  newState[0] = result[0];
-
-  return newState;
-};
-
 //List of reducers
 function addReducer(state = initialState, action) {
   switch (action.type) {
     case "MOVE":
-      if (myStore.state.state) {
-        myStore.state.state = [
-          ...move(action.payload.source, action.payload.destination),
-        ];
-        return myStore.state.state;
+      if (JSON.parse(localStorage.getItem("state"))) {
+        localStorage.setItem(
+          "state",
+          JSON.stringify([
+            ...move(action.payload.source, action.payload.destination),
+          ])
+        );
+        return JSON.parse(localStorage.getItem("state"));
       }
-      return myStore.state.state;
+      return JSON.parse(localStorage.getItem("state"));
 
     case "REORDER":
-      if (myStore.state.state) {
-        myStore.state.state = [
-          ...reorder(
-            action.payload.sourceDroppableID,
-            action.payload.sourceIndex,
-            action.payload.destinationIndex
-          ),
-        ];
-        return myStore.state.state;
+      if (JSON.parse(localStorage.getItem("state"))) {
+        localStorage.setItem(
+          "state",
+          JSON.stringify([
+            ...reorder(
+              action.payload.sourceDroppableID,
+              action.payload.sourceIndex,
+              action.payload.destinationIndex
+            ),
+          ])
+        );
+        return JSON.parse(localStorage.getItem("state"));
       }
-      return myStore.state.state;
+      return JSON.parse(localStorage.getItem("state"));
 
     case "REMOVE":
-      if (myStore.state.state) {
-        myStore.state.state = [
-          ...remove(
-            action.payload.sourceDroppableID,
-            action.payload.removeIndex
-          ),
-        ];
-        return myStore.state.state;
+      if (JSON.parse(localStorage.getItem("state"))) {
+        localStorage.setItem(
+          "state",
+          JSON.stringify([
+            ...remove(
+              action.payload.sourceDroppableID,
+              action.payload.removeIndex
+            ),
+          ])
+        );
+        return JSON.parse(localStorage.getItem("state"));
       }
-      return myStore.state.state;
+      return JSON.parse(localStorage.getItem("state"));
 
     case "ADDCOLUMN":
       if (state.length <= 4) {
-        myStore.state.state = [...state, []];
+        localStorage.setItem("state", JSON.stringify([...state, []]));
       }
-      return myStore.state.state;
+      return JSON.parse(localStorage.getItem("state"));
 
     case "REMOVECOLUMN":
-      myStore.state.state = [...removeColumn()];
-      return myStore.state.state;
+      localStorage.setItem("state", JSON.stringify([...removeColumn()]));
+      return JSON.parse(localStorage.getItem("state"));
 
     case "ADDITEM":
-      myStore.state.state = [...addItem()];
-      return myStore.state.state;
+      localStorage.setItem(
+        "state",
+        JSON.stringify([...addItem(action.payload)])
+      );
+      return JSON.parse(localStorage.getItem("state"));
     default:
-      return myStore.state.state;
+      return JSON.parse(localStorage.getItem("state"));
   }
 }
 

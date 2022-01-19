@@ -8,7 +8,6 @@ import {
 } from "../actions";
 import "../css/style.css";
 import Button from "@mui/material/Button";
-import { myStore } from "../localStorage/localStorage";
 
 //\\####STYLING####\\//
 const getItemStyle = (isDragging, draggableStyle) => ({
@@ -46,7 +45,7 @@ const DragDropList = () => {
         height: "95vh",
       }}
     >
-      {myStore.state.state.map((el, ind) => (
+      {JSON.parse(localStorage.getItem("state")).map((el, ind) => (
         <div style={{ overflow: "hidden" }}>
           <Droppable key={ind} droppableId={`${ind}`}>
             {(provided, snapshot) => (
@@ -109,7 +108,7 @@ const DragDropList = () => {
 
 export const DragDropListContainer = () => {
   const state = useSelector((state) => state);
-  
+
   if (state) {
     return <DragDropList state={state} />;
   } else {

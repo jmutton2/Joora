@@ -51,10 +51,11 @@ export function removeColumnAction() {
   };
 }
 
-export function addItemAction() {
+export function addItemAction(state) {
   return (dispatch) => {
     dispatch({
       type: "ADDITEM",
+      payload: state
     });
   };
 }
