@@ -1,6 +1,8 @@
 let initialState;
 
-if (JSON.parse(localStorage.getItem("state")) == [[], [], [], []]) {
+if (!JSON.parse(localStorage.getItem("state"))) {
+  localStorage.setItem("state", JSON.stringify([[], [], [], []]));
+} else if (JSON.parse(localStorage.getItem("state")) == [[], [], [], []]) {
   localStorage.setItem("state", JSON.stringify([[], [], [], []]));
 } else {
   initialState = JSON.parse(localStorage.getItem("state"));
