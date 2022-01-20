@@ -1,3 +1,4 @@
+localStorage.setItem("state", JSON.stringify([[], [], [], []]));
 const initialState = JSON.parse(localStorage.getItem("state"));
 
 const addItem = (state) => {
