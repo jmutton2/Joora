@@ -5,50 +5,20 @@ import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
 import "../css/style.css";
 
-const Buttons = () => {
+export function Buttons() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   return (
-    <div style={{ width: 200, paddingLeft: 10 }} class="buttons">
-      {/* <Button
-        variant="contained"
-        className="myButton"
-        disabled={false}
-        style={{
-          display: "flex",
-          justifyContent: "space-around",
-          fontFamily: "Uni Sans Heavy",
-        }}
-        onClick={() => {
-          dispatch(addColumnAction());
-        }}
-      >
-        Add new group
-      </Button> */}
-      {/* <Button
-        variant="contained"
-        className="myButton"
-        style={{
-          display: "flex",
-          justifyContent: "space-around",
-          fontFamily: "Uni Sans Heavy",
-        }}
-        onClick={() => {
-          dispatch(removeColumnAction());
-        }}
-      >
-        Remove last column
-      </Button> */}
+    <div style={{ width: 200, margin: 10 }} className="buttons">
       <Button
         key="AddEntryButton"
-        variant="contained"
+        variant="outlined"
         style={{
           display: "flex",
           justifyContent: "space-around",
-          fontFamily: "Uni Sans Heavy",
-          background: "#7289da ",
+          color: "#7289da ",
         }}
         onClick={() => {
           handleOpen();
@@ -60,12 +30,15 @@ const Buttons = () => {
         key="AddEntryModal"
         open={open}
         onClose={handleClose}
-        // aria-labelledby="modal-modal-title"
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
       >
-        <Entry />
+        <div>
+          <Entry />
+        </div>
       </Modal>
     </div>
   );
-};
+}
 
 export default Buttons;

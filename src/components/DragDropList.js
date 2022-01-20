@@ -8,23 +8,24 @@ import {
 } from "../actions";
 import "../css/style.css";
 import Button from "@mui/material/Button";
+import { Delete } from "@material-ui/icons";
 
 //\\####STYLING####\\//
 const getItemStyle = (isDragging, draggableStyle) => ({
   userSelect: "none",
-  padding: 30,
   margin: `0 0 20px 0`,
-  height: 80,
+  height: 140,
   background: isDragging ? "#2c2f33" : "#2c2f33",
   ...draggableStyle,
 });
 
-const getListStyle = (isDraggingOver) => ({
+const getListStyle = () => ({
   background: "rgb(55, 58, 62)",
+  borderRadius: "7px",
   padding: 10,
   width: 280,
   marginTop: 10,
-  marginInline: 10,
+  marginInline: 20,
   maxHeight: "96vh",
   overflowY: "auto",
 });
@@ -46,7 +47,7 @@ const DragDropList = () => {
       }}
     >
       {JSON.parse(localStorage.getItem("state")).map((el, ind) => (
-        <div style={{ overflow: "hidden" }}>
+        <div style={{ overflow: "hidden" }} key={el + ind}>
           <Droppable key={ind} droppableId={`${ind}`}>
             {(provided, snapshot) => (
               <div
@@ -54,7 +55,8 @@ const DragDropList = () => {
                 style={getListStyle(snapshot.isDraggingOver)}
                 {...provided.droppableProps}
               >
-                {titles[ind]}
+                <div style={{ paddingBottom: 20 }}>{titles[ind]}</div>
+
                 {el.map((item, index) => (
                   <Draggable
                     className="droppable"
@@ -75,22 +77,45 @@ const DragDropList = () => {
                         <div
                           key={item}
                           style={{
-                            display: "flex",
-                            justifyContent: "space-around",
-                            fontFamily: "Uni Sans Heavy",
+                            display: "grid",
+                            width: "100%",
+                            height: "100%",
+                            fontFamily: "Palatino",
+                            gridTemplateColumns: "1.8fr 0.2fr",
+                            gridTemplateRows: ".5fr",
+                            gap: "0px 0px",
                           }}
                         >
-                          {item.content}
-                          <br></br>
-                          {item.description}
-                          <Button
-                            type="button"
-                            onClick={() => {
-                              dispatch(removeItemAction(index, ind));
+                          <div
+                            style={{
+                              paddingTop: 10,
+                              fontWeight: "bold",
+                              padding: 10,
+                              overflow: "hidden",
                             }}
                           >
-                            delete
-                          </Button>
+                            {item.content}
+                          </div>
+
+                          <br></br>
+                          <div style={{ paddingLeft: 10 }}>
+                            {item.description}
+                          </div>
+                          <div
+                            style={{ display: "flex", alignItems: "flex-end" }}
+                          >
+                            <Button
+                              style={{
+                                height: 35,
+                              }}
+                              type="button"
+                              onClick={() => {
+                                dispatch(removeItemAction(index, ind));
+                              }}
+                            >
+                              <Delete />
+                            </Button>
+                          </div>
                         </div>
                       </div>
                     )}

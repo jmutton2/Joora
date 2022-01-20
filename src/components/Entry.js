@@ -63,9 +63,6 @@ const Entry = () => {
       }}
     >
       <div>
-        <label>ID</label>
-        <input type="text" value={state.id} onChange={handleIDChang} />
-        <br />
         <label>CONTENT</label>
         <input
           type="text"
