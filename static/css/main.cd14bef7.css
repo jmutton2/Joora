@@ -1,0 +1,2 @@
+.buttons{display:flex;flex-direction:column}.myButton{background-color:#7289da;border:.5px solid #7289da;border-radius:5px;color:#fff;cursor:pointer;font-size:20px;font-weight:700;margin:10px 10px 0;padding:16px;position:relative;text-decoration:none;text-shadow:0 1px 0 #7289da}.myButton:hover{background-color:#556fcc}.entryBox{left:"50%";position:"absolute";top:"50%";-webkit-transform:"translate(-50%, -50%)";transform:"translate(-50%, -50%)"}body{margin:0}html{color:#fff}code{font-family:Palatino,monospace}
+/*# sourceMappingURL=main.cd14bef7.css.map*/
