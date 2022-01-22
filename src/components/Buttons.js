@@ -18,7 +18,7 @@ export function Buttons() {
         style={{
           display: "flex",
           justifyContent: "space-around",
-          color: "#7289da ",
+          color: "#7289da",
         }}
         onClick={() => {
           handleOpen();

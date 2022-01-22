@@ -9,12 +9,16 @@ import {
 import "../css/style.css";
 import Button from "@mui/material/Button";
 import { Delete } from "@material-ui/icons";
+import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
 
 //\\####STYLING####\\//
 const getItemStyle = (isDragging, draggableStyle) => ({
   userSelect: "none",
   margin: `0 0 20px 0`,
-  height: 140,
+  height: "140px",
+  overflowY: "auto",
   background: isDragging ? "#2c2f33" : "#2c2f33",
   ...draggableStyle,
 });
@@ -31,6 +35,19 @@ const getListStyle = () => ({
 });
 
 //\\####STYLING####//\\
+
+function renderSwitch(param) {
+  switch (param) {
+    case "HIGH":
+      return <ArrowDropUpIcon style={{ color: "red" }} />;
+    case "MEDIUM":
+      return <HorizontalRuleIcon style={{ color: "yellow" }} />;
+    case "LOW":
+      return <ArrowDropDownIcon style={{ color: "green" }} />;
+    default:
+      return param;
+  }
+}
 
 const DragDropList = () => {
   const dispatch = useDispatch();
@@ -96,13 +113,18 @@ const DragDropList = () => {
                           >
                             {item.content}
                           </div>
-
-                          <br></br>
+                          <div style={{ paddingTop: 10, paddingLeft: 20 }}>
+                            {renderSwitch(item.severity)}
+                          </div>
                           <div style={{ paddingLeft: 10 }}>
                             {item.description}
                           </div>
+
                           <div
-                            style={{ display: "flex", alignItems: "flex-end" }}
+                            style={{
+                              display: "flex",
+                              alignItems: "flex-end",
+                            }}
                           >
                             <Button
                               style={{
