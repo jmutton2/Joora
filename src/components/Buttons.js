@@ -24,7 +24,7 @@ export function Buttons() {
           handleOpen();
         }}
       >
-        Add new item
+        Add new item!
       </Button>
       <Modal
         key="AddEntryModal"
